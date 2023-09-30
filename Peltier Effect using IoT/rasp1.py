@@ -1,0 +1,18 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+max_humidity = 0.0
+
+@app.route('/update_humidity', methods=['POST'])
+def update_humidity():
+    global max_humidity
+    data = request.json
+    humidity = data.get('humidity', 0.0)
+    
+    if humidity > max_humidity:
+        max_humidity = humidity
+
+    return f"Received humidity: {humidity}, Max humidity: {max_humidity}"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
