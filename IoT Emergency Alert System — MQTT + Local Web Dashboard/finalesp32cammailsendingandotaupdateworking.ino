@@ -8,13 +8,13 @@
 #include <EEPROM.h>
 
 // REPLACE WITH YOUR NETWORK CREDENTIALS
-const char* ssid = "iphone";
+const char* ssid = "phone";
 const char* password = "111111111";
 
 // To send Email using Gmail use port 465 (SSL) and SMTP Server smtp.gmail.com
 // You need to create an email app password
-#define emailSenderAccount    "womensafetyproject22@gmail.com"
-#define emailSenderPassword   "zyev ydoz hqgx cemt"
+#define emailSenderAccount    "----"
+#define emailSenderPassword   "---"
 #define smtpServer            "smtp.gmail.com"
 #define smtpServerPort        465
 
