@@ -8,12 +8,12 @@
 #define TXPin 12  
 #define GPSBaud 9600
 
-const char* ssid = "iphone";
+const char* ssid = "phone";
 const char* password = "111111111";
 
 TinyGPSPlus gps;
 SoftwareSerial ss(RXPin, TXPin);
-EMailSender emailSend("womensafetyproject22@gmail.com", "zyev ydoz hqgx cemt");
+EMailSender emailSend("-----", "----");
 
 bool emailSent = false;  // Track if an email has been sent
 
@@ -62,7 +62,7 @@ void sendEmail(double latitude, double longitude) {
     message.subject = "Emergency Alert!";
     message.message = messageBody;
 
-    EMailSender::Response resp = emailSend.send("mbadrinath5222@gmail.com", message);
+    EMailSender::Response resp = emailSend.send("------", message);
 
     Serial.println("Sending status: ");
     Serial.println(resp.status);
