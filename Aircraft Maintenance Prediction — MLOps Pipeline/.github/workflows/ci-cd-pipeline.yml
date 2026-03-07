@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Streamlit App
 on:
   push:
     branches:
-      - main  # Trigger workflow when code is pushed to the main branch
+      - main  # Trigger workflow when code is pushed to the  main branch
 
 jobs:
   build-and-deploy:
