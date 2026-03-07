@@ -1,0 +1,74 @@
+name: CI/CD Pipeline for Streamlit App
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow when code is pushed to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # Install dependencies from requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Run training script (assuming you have a training script that prepares models)
+      - name: Run training script
+        run: |
+          echo "Running training script..."
+          python model/training.py
+
+      # Run recommendation.py (generate recommendations)
+      - name: Run recommendation script
+        run: |
+          echo "Running recommendation script..."
+          python model/recommendation.py
+
+      # Run prediction.py (make predictions)
+      
+
+      # (Optional) Run unit tests if needed
+      # Uncomment this block if you have unit tests in your repository
+      # - name: Run unit tests
+      #   run: |
+      #     pytest tests/
+
+      # Upload Models to Artifact Store
+      - name: Upload Models to Artifact Store
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-models
+          path: |
+            models/maintenance_classifier_model.pkl
+            models/remaining_life_regressor_model.pkl
+
+      # Run Streamlit app in the background (headless mode)
+      - name: Run Streamlit app
+        run: |
+          echo "Starting Streamlit app..."
+          streamlit run streamlit_app.py --server.headless true &  # Run the app in the background
+          sleep 10  # Wait for 10 seconds to let the app start
+          echo "Streamlit app should have started."
+          ps aux | grep streamlit  # Check if Streamlit process is running
+          pkill -f streamlit  # Kill the Streamlit process after 10 seconds
+
+      # MLflow logging test (for model logging)
+            # MLflow logging test (for model logging)
+      - name: Deploy to MLflow Tracking Server
+        run: |
+          echo "Logging models and metrics to MLflow"
+          python mlflow_utils/mlflow_logging.py
